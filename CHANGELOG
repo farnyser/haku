@@ -1,0 +1,179 @@
+====================================================================================================
+Bugs connus:
+----------------------------------------------------------------------------------------------------
+
+* cookies/session: deconnexion involontaire
+* scrollback off marche pas
+* cmdline: certains caractère (unicode) ne s'affiche pas et ne passent pas.
+
+====================================================================================================
+Cette version : [ Magnésium ]
+----------------------------------------------------------------------------------------------------
+
+* Résolution de bug:
+	- Problème avec l'algorithme de tri des bestMatch
+	
+* Améliorations:
+	- Ajout d'une commande ':exec' permettant par exemple, lors de la visite d'une http://*.pdf, 
+	de faire ':exec acroread %uri' pour ouvrir le pdf dans acrobat reader. Après le téléchargement 
+	d'une vidéo, on peut utiliser ':exec mplayer %localpath' pour en lancer la lecture.
+	- Regexp dans les OSL/Adblock
+	- :new ouvre maintenant un nouveau process (le retour sur l'ancien comportement est possible)
+
+====================================================================================================
+Historique des versions:
+----------------------------------------------------------------------------------------------------
+
+sodium:
+
+* Résolution de bug:
+	- segfault lors de l'execution d'une commande depuis le shell,
+	- page se rechargeant sans utiliser le cache lors de l'utilisation de "js/plugins on/off" et "source".
+	- amélioration du support de la compilation en 64 bits
+	- "set commandline machin truc " avec espace finale est maintenant possible
+
+* Ajout de fonctionnalité:
+	- set userjs firefox/opera/chrome/haku (personnalisable)
+	- debug_v, debug_vv et debug_vvv pour une meilleur repartition des messages de debug
+	- debut de support d'un adblockeur built in
+	- zoom off
+	- completion automatique quand appui sur espace
+
+
+neon:
+
+* Modification du système de configuration des keybinding, il est maintenant possible
+	- de creer des raccourcies pour n'importe quelle fonction accessible via la commandline, 
+	- de creer plusieurs racourcies vers la même commandes
+	- de creer des racourcies différents/identiques pour chaque mode (insert,command,commandline)
+* Modification du système de configuration des commandes, il est maintenant possible
+	- de creer des combinaisons de commande (script)
+	- de creer des commandes s'executant sur chaque fenetre (foreach cmd)
+* Fonction d'acces au clipboard (application::getclipboard et application::setclipboard) permettant 
+une petite factorisation du code.
+
+
+fluorine:
+
+* correction bug:
+	- ":" (cmdline VIDE) => segfault
+	- :session save => segfault
+	- espace en premier caractère lors d'une recherche supprimé
+	- ajout de :new et :open dans l'autocomplétion
+	- il y avait une perte provisoire (jusqu'au prochain lancement) du SE/BM 
+	par defaut lors d'un ajout/d'une suppréssion. Ce n'est plus le cas.
+	- cmdline: certains caractères ne passent pas -> corrigé pour &, +, ! [, ]...
+	- le titre reste "l'adresse du lien survolé" même après un clic
+	
+* ajout de :session show [name]
+* ajout de :stop
+* ajout d'un binding clavier pour :stop (par defaut: c)
+* amélioration (minime) du zoom adaptatif et option pour le desactiver (OPT_ADAPTATIVE_ZOOM)
+* petite factorisation du code pour bm/se/session show; avec configuration de la sortie html
+dans config.hpp (template-like)
+* petite amélioration générale de la présentation du code avec notamment l'apparition d'un dossier 
+tools/ pour regrouper les fonctions utilisées par haku.
+* autocomplétion insensible à la casse
+
+
+oxygen:
+
+* correction d'un bug au niveau des sessions (liens du type page#paraghraph n'etaient pas supprimés)
+* completion avec un séparateur / mieux géré (considère / comme "poids fort" pour la complétion)
+(exemple sur une liste de bookmark: {manga/mangastream, manga/onemanga, manga/ncteam})
+* completion sur les session (nom des sessions existantes)
+* completion automatique lorsque la ressemblance est tres forte (parametrable)
+* supprimer les doubles espaces, triples espaces, etc dans la cmdline
+* correction d'une segfault (parfois lors de la fermeture d'une fenetre)
+
+
+nitrogen:
+
+* correction d'un bug lors de la fermeture d'une fenetre contenant un download
+* petite correction sur haku -e blabla
+* petites corrections sur le comportement des sessions
+* open special link intern: prise en charge des commandes internes (idem commandline && haku -e cmd)
+* correction petit bug: js/plugins/cookies on/off  ALWAYS ne rechargeait pas la page
+
+
+carbon:
+
+* correction du bug 'cmdline: bestmatch en sens inverse segfault'
+* correction du bug 'cmdline: certains caractères ( & ) n'apparaisse pas'
+* 'haku -e save url' et 'haku -e save url target' ajoutés
+* systeme generique pour executer une commande (externe) pour gerer des liens speciaux
+	du type mailto:, magnet:, ftp:, rtsp/mms: .. et .avi, .torrent .... (de manière optionnel)
+	ne fonctionne pas encore: 
+		- la comparaison par regexp
+		- l'utilisation de commande interne (genre modiication auto de l'url pour rediriger)
+* switch vers mode_insert si clic dans un champs editable, et vers mode_command si clic ailleur
+	en option bien sûr (OPT_CLICK_SWITCH_MODE)
+* option pour n'accepter le https que des sites reconnus (OPT_STRICT_SSL)
+
+
+boron:
+
+* :save/:s pour download une page
+* :save/:s path/nom à la place du download auto
+	avec tout de meme path par defaut = $HOME 
+	et nom par defaut = meme qu'avec auto download
+* possibilité de garder l'autodownload (config)
+* Makefile amélioré (+optimisation, +clair)
+
+* correction bug introduit par beryllium au niveau de :js/plugins on/off 	
+
+
+beryllium:
+
+* correction tabcomplétion ( au niveau algo distance )
+* ajout de sortie console de debug si DEBUG est defini
+* ajout de "halu --exec open foobar"
+* debut de support de syncronisation
+* modification pour gerer de maninere générique activation/desactivation cookies/js/plugins
+* lors d'un telechargement, si le fichier existe deja, enregistre sous le nom
+	_filename (au lieu de filename)
+
+
+lithium:
+
+* $haku path/fichier fonctionne maintenant correctement meme sans le préfixe file:/
+* de plus,
+	file:/a est un path depuis / 
+	file://a est un path depuis le dossier de lancement d'haku
+* cookies on/off par url
+* deplacement de {cookies,javascript,plugins}.txt dans uri/ 
+	(casse la compatibilité)
+* session en vector au lieu de map
+	(casse la compatibilité)
+
+
+helium:
+
+* option prevent_insertion qui permet (si à false) d'écrire meme en mode command
+	cad transformer le "vi-style" en "emacs-style"
+* keybinding modifiable
+* option userjs_enabled pour desactiver les script userjs (et supprimer du code)
+* laisse passer les combinaisons "Ctrl+c/v/..." en mode commande
+* correction du support userjs avec 2 scripts "utilisable" (middleclick et flashblock)
+* correction du middleclick pour ne pas coller lorsque l'on clique sur un lien 
+	(webkit hit test ne fonctionne PAS correctement, donc autre methode de detection)
+
+
+hydrogen:
+
+* correction du page_down/page_up (qui etaient inversés)
+* correction du comportement de la sauvegarde auto de session (en cas de crash)
+* support lien magnet: (optionnel, si désactivé, rien de plus dans le code)  
+* utilisation de reference/const dans str.{c,h}pp 
+* download dans une nouvelle fenetre
+* correction download (suppression segfault)
+* gestion de version simple
+* les cookies sont gardés pour une durée SESSION_TIME indépendamment de la date d'expiration demandée
+* middleclick dans le "vide" : utilsie le presse papier Xorg comme "url".
+* correction bug quand on colle alors qu'il n'y a rien à coller.
+* amelioration tabcomplétion ( plusieurs choix possible )
+* amelioration tabcomplétion ( complete les commandes de base, bookmark, searchengine, ... )
+* creation d'une classe cmdline
+* Ajout d'un curseur '|' dans la ligne de commande
+* Ajout d'un debut de tabcomplétion (par distance d'edition, cad acceptant les fautes)
+
